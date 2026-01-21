@@ -79,7 +79,7 @@ const App = () => {
         'Kot Bellian TP (167 Km)', 'Essa Khel TP (210 Km)', 'Kundal TP (220 Km)', 'Abdul Khel TP (266 Km)', 'Yarik MTP (293 Km)'
       ]
     },
-    'E-35 ': {
+    'E-35 / M-15': {
       name: 'E-35 / M-15 (Hazara Motorway) 96 Km',
       northDir: 'towards Gilgit / Mansehra',
       southDir: 'towards Islamabad / Peshawar',
@@ -310,27 +310,19 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 p-4 flex flex-col items-center">
-
       <div className={`${containerClass} bg-gray-800 rounded-xl shadow-2xl overflow-hidden border-4 border-gray-700`}>
         <div className="h-full overflow-y-auto bg-gradient-to-br from-blue-50 to-indigo-100">
           <div className="p-3">
             <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
-              <div className="flex items-center justify-between gap-3 mb-3">
-                <div className="flex-1">
-                  <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                    <Navigation className="text-blue-600 w-6 h-6" />
-                    Motorway Closure Status
-                  </h1>
-                  <p className="text-xs text-gray-600 mt-1">Real-time closure updates - Motorways</p>
-                </div>
-                <div className="text-right text-xs text-gray-500">
-                  <p>Copyright © 2026 reserved.</p>
-                  <p className="font-semibold">Version 1.10.2</p>
-                </div>
+              <div className="flex items-center gap-2 mb-2">
+                <Navigation className="text-blue-600 w-6 h-6" />
+                <h1 className="text-xl font-bold text-gray-800">
+                  Motorway Closure Status
+                </h1>
               </div>
-              
+              <p className="text-xs text-gray-600 mb-1">Real-time closure updates - Motorways</p>
               {lastUpdated && (
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-xs text-gray-500">
                   Last updated: {new Date(lastUpdated).toLocaleString('en-PK', { 
                     timeZone: 'Asia/Karachi',
                     dateStyle: 'medium',
@@ -488,15 +480,15 @@ const App = () => {
                             <div></div>
                             <div className="flex justify-center">
                               {hasNorthDiversion && (
-                                <div className="bg-red-600 text-white px-1 py-0.5 rounded text-[9px] font-bold text-center">
-                                  DIV
+                                <div className="bg-red-600 text-white px-1.5 py-0.5 rounded text-[9px] font-bold text-center">
+                                  Diversion
                                 </div>
                               )}
                             </div>
                             <div className="flex justify-center">
                               {hasSouthDiversion && (
-                                <div className="bg-red-600 text-white px-1 py-0.5 rounded text-[9px] font-bold text-center">
-                                  DIV
+                                <div className="bg-red-600 text-white px-1.5 py-0.5 rounded text-[9px] font-bold text-center">
+                                  Diversion
                                 </div>
                               )}
                             </div>
@@ -544,6 +536,7 @@ const App = () => {
               </div>
               <div className="mt-3 text-center text-gray-600 text-[10px] border-t border-gray-200 pt-3">
                 <p>Pakistan Motorway Authority - Closure Status System</p>
+                <p className="mt-1 text-gray-500">Copyright © 2026 reserved. Version 1.10.2</p>
               </div>
             </div>
           </div>
