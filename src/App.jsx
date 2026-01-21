@@ -306,21 +306,23 @@ const App = () => {
     const status = plazaStatuses[key];
     return status?.north?.status === 'heavy' || status?.south?.status === 'heavy';
   }).length;
+  const containerClass = viewMode === 'mobile' ? 'w-[375px] h-[667px]' : 'w-full max-w-6xl h-[700px]';
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="w-full min-h-screen">
-        <div className="w-full overflow-y-auto">
-          <div className="p-3 pb-20">
-            <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4 mb-3 sm:mb-4">
+    <div className="min-h-screen bg-gray-900 p-4 flex flex-col items-center">
+      <div className={`${containerClass} bg-gray-800 rounded-xl shadow-2xl overflow-hidden border-4 border-gray-700`}>
+        <div className="h-full overflow-y-auto bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="p-3">
+            <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <Navigation className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
-                <h1 className="text-lg sm:text-xl font-bold text-gray-800">
+                <Navigation className="text-blue-600 w-6 h-6" />
+                <h1 className="text-xl font-bold text-gray-800">
                   Motorway Closure Status
                 </h1>
               </div>
-              <p className="text-[10px] sm:text-xs text-gray-600 mb-1">Real-time closure updates - Motorways</p>
+              <p className="text-xs text-gray-600 mb-1">Real-time closure updates - Motorways</p>
               {lastUpdated && (
-                <div className="text-[10px] sm:text-xs text-gray-500">
+                <div className="text-xs text-gray-500">
                   Last updated: {new Date(lastUpdated).toLocaleString('en-PK', { 
                     timeZone: 'Asia/Karachi',
                     dateStyle: 'medium',
@@ -331,13 +333,13 @@ const App = () => {
             </div>
 
             {!isLoggedIn && (
-              <div className="bg-white rounded-lg shadow-lg mb-3 sm:mb-4 overflow-hidden">
-                <div className="flex overflow-x-auto scrollbar-hide">
+              <div className="bg-white rounded-lg shadow-lg mb-4 overflow-hidden">
+                <div className="flex overflow-x-auto">
                   {Object.keys(motorways).map((mway) => (
                     <button
                       key={mway}
                       onClick={() => setActiveTab(mway)}
-                      className={`relative flex-shrink-0 px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold transition-all whitespace-nowrap ${
+                      className={`relative flex-1 px-4 py-3 text-sm font-bold transition-all whitespace-nowrap ${
                         activeTab === mway
                           ? `bg-gradient-to-br ${motorways[mway].gradient} text-white shadow-md`
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
@@ -353,9 +355,9 @@ const App = () => {
               </div>
             )}
 
-            <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4 mb-3 sm:mb-4">
-              <h2 className="text-xs sm:text-sm font-bold text-gray-800 mb-2 sm:mb-3">{motorwayData.name}</h2>
-              <div className="flex items-center gap-2 sm:gap-3 text-[9px] sm:text-[10px] flex-wrap">
+            <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
+              <h2 className="text-sm font-bold text-gray-800 mb-3">{motorwayData.name}</h2>
+              <div className="flex items-center gap-3 text-[10px] flex-wrap">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
                   <span className="text-gray-700">Open</span>
@@ -370,27 +372,27 @@ const App = () => {
                 </div>
               </div>
               {(closedCount > 0 || heavyCount > 0) && (
-                <div className="flex flex-col gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                <div className="flex flex-col gap-2 mt-3">
                   {closedCount > 0 && (
-                    <div className="flex items-center gap-1.5 sm:gap-2 bg-red-50 px-2 py-1 rounded-full">
+                    <div className="flex items-center gap-2 bg-red-50 px-2 py-1 rounded-full">
                       <AlertCircle className="w-3 h-3 text-red-600 flex-shrink-0" />
-                      <span className="text-red-600 font-semibold text-[9px] sm:text-[10px]">{closedCount} Plaza{closedCount > 1 ? 's' : ''} Closed</span>
+                      <span className="text-red-600 font-semibold text-[10px]">{closedCount} Plaza{closedCount > 1 ? 's' : ''} Closed</span>
                     </div>
                   )}
                   {heavyCount > 0 && (
-                    <div className="flex items-center gap-1.5 sm:gap-2 bg-orange-50 px-2 py-1 rounded-full">
+                    <div className="flex items-center gap-2 bg-orange-50 px-2 py-1 rounded-full">
                       <Truck className="w-3 h-3 text-orange-600 flex-shrink-0" />
-                      <span className="text-orange-600 font-semibold text-[9px] sm:text-[10px]">{heavyCount} Plaza{heavyCount > 1 ? 's' : ''} Partially Closed</span>
+                      <span className="text-orange-600 font-semibold text-[10px]">{heavyCount} Plaza{heavyCount > 1 ? 's' : ''} Partially Closed</span>
                     </div>
                   )}
                 </div>
               )}
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-2 sm:p-3 mb-3 sm:mb-4">
-              <div className="w-full overflow-x-auto">
-                <div className="grid gap-1.5 sm:gap-2 min-w-[320px]">
-                  <div className="grid gap-1.5 sm:gap-2 pb-2 border-b-4 border-gray-500 font-semibold text-[10px] sm:text-xs" style={{ gridTemplateColumns: '25px 1fr 55px 55px' }}>
+            <div className="bg-white rounded-lg shadow-lg p-3 mb-4">
+              <div className="w-full">
+                <div className="grid gap-2">
+                  <div className="grid gap-2 pb-2 border-b-4 border-gray-500 font-semibold text-xs" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
                     <div className="text-center">No.</div>
                     <div className="text-left">Toll Plaza</div>
                     <div className="text-center">
@@ -418,30 +420,30 @@ const App = () => {
                     return (
                       <React.Fragment key={plaza}>
                         {currentSection && (
-                          <div className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 py-1.5 sm:py-2 px-3 sm:px-4 font-semibold text-xs sm:text-sm rounded-lg mt-1.5 sm:mt-2 mb-1 shadow-sm border border-blue-300">
+                          <div className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 py-2 px-4 font-semibold text-sm rounded-lg mt-2 mb-1 shadow-sm border border-blue-300">
                             {currentSection.name}
                           </div>
                         )}
-                        <div className="grid gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 border-b-2 border-gray-400 hover:bg-gray-50 transition-colors" style={{ gridTemplateColumns: '25px 1fr 55px 55px' }}>
-                          <div className="text-[10px] sm:text-xs font-bold text-gray-700 text-center">{index + 1}</div>
-                          <div className="text-[10px] sm:text-xs font-medium text-gray-800 pr-1 break-words">{plaza}</div>
+                        <div className="grid gap-2 items-center py-2 border-b-2 border-gray-400 hover:bg-gray-50 transition-colors" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
+                          <div className="text-xs font-bold text-gray-700 text-center">{index + 1}</div>
+                          <div className="text-xs font-medium text-gray-800 pr-1">{plaza}</div>
                           <div className="flex justify-center">
-                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'north', status.north)} className={`flex flex-col items-center justify-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg text-white text-[9px] sm:text-[10px] w-full font-semibold ${getStatusColor(status.north?.status)} cursor-pointer hover:opacity-80`}>
+                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'north', status.north)} className={`flex flex-col items-center justify-center gap-1 px-2 py-1.5 rounded-lg text-white text-[10px] w-full font-semibold ${getStatusColor(status.north?.status)} cursor-pointer hover:opacity-80`}>
                               {getStatusIcon(status.north?.status)}
                               <span className="leading-tight text-center">{status.north?.status === 'closed' ? 'Closed' : status.north?.status === 'heavy' ? 'Partial' : 'Open'}</span>
                             </button>
                           </div>
                           <div className="flex justify-center">
-                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'south', status.south)} className={`flex flex-col items-center justify-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg text-white text-[9px] sm:text-[10px] w-full font-semibold ${getStatusColor(status.south?.status)} cursor-pointer hover:opacity-80`}>
+                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'south', status.south)} className={`flex flex-col items-center justify-center gap-1 px-2 py-1.5 rounded-lg text-white text-[10px] w-full font-semibold ${getStatusColor(status.south?.status)} cursor-pointer hover:opacity-80`}>
                               {getStatusIcon(status.south?.status)}
                               <span className="leading-tight text-center">{status.south?.status === 'closed' ? 'Closed' : status.south?.status === 'heavy' ? 'Partial' : 'Open'}</span>
                             </button>
                           </div>
                         </div>
                         {nextPlaza && editMode && (
-                          <div className="grid gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 bg-gray-100" style={{ gridTemplateColumns: '25px 1fr 55px 55px' }}>
+                          <div className="grid gap-2 items-center py-2 bg-gray-100" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
                             <div></div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-600 italic flex items-center gap-1">
+                            <div className="text-[10px] text-gray-600 italic flex items-center gap-1">
                               <span>Diversion</span>
                             </div>
                             <div className="flex justify-center">
@@ -450,9 +452,9 @@ const App = () => {
                                   type="checkbox"
                                   checked={hasNorthDiversion}
                                   onChange={() => toggleDiversion(activeTab, plaza, nextPlaza, 'north')}
-                                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 cursor-pointer accent-red-600"
+                                  className="w-4 h-4 cursor-pointer accent-red-600"
                                 />
-                                <span className={`text-[9px] sm:text-[10px] font-semibold ${hasNorthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
+                                <span className={`text-[10px] font-semibold ${hasNorthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
                                   {hasNorthDiversion ? 'On' : 'Off'}
                                 </span>
                               </label>
@@ -463,9 +465,9 @@ const App = () => {
                                   type="checkbox"
                                   checked={hasSouthDiversion}
                                   onChange={() => toggleDiversion(activeTab, plaza, nextPlaza, 'south')}
-                                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 cursor-pointer accent-red-600"
+                                  className="w-4 h-4 cursor-pointer accent-red-600"
                                 />
-                                <span className={`text-[9px] sm:text-[10px] font-semibold ${hasSouthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
+                                <span className={`text-[10px] font-semibold ${hasSouthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
                                   {hasSouthDiversion ? 'On' : 'Off'}
                                 </span>
                               </label>
@@ -473,19 +475,19 @@ const App = () => {
                           </div>
                         )}
                         {(hasNorthDiversion || hasSouthDiversion) && !editMode && (
-                          <div className="grid gap-1.5 sm:gap-2 items-center py-1" style={{ gridTemplateColumns: '25px 1fr 55px 55px' }}>
+                          <div className="grid gap-2 items-center py-1" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
                             <div></div>
                             <div></div>
                             <div className="flex justify-center">
                               {hasNorthDiversion && (
-                                <div className="bg-red-600 text-white px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold text-center">
+                                <div className="bg-red-600 text-white px-1.5 py-0.5 rounded text-[9px] font-bold text-center">
                                   Diversion
                                 </div>
                               )}
                             </div>
                             <div className="flex justify-center">
                               {hasSouthDiversion && (
-                                <div className="bg-red-600 text-white px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold text-center">
+                                <div className="bg-red-600 text-white px-1.5 py-0.5 rounded text-[9px] font-bold text-center">
                                   Diversion
                                 </div>
                               )}
@@ -498,8 +500,8 @@ const App = () => {
                 </div>
               </div>
               {editMode && (
-                <div className="mt-3 sm:mt-4 p-2 bg-blue-50 rounded-lg">
-                  <p className="text-[9px] sm:text-[10px] text-blue-800 flex items-start gap-1.5 sm:gap-2">
+                <div className="mt-4 p-2 bg-blue-50 rounded-lg">
+                  <p className="text-[10px] text-blue-800 flex items-start gap-2">
                     <AlertCircle className="w-3 h-3 flex-shrink-0 mt-0.5" />
                     <span>Tap any Open status to close or partially close a plaza. Tap Closed/Partial to reopen.</span>
                   </p>
@@ -507,32 +509,32 @@ const App = () => {
               )}
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4">
-              <div className="flex items-center justify-between gap-2 sm:gap-3 flex-wrap">
-                <a href="https://wa.me/923225501818" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 sm:gap-2 bg-green-500 hover:bg-green-600 text-white px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold shadow-md transition-all text-xs sm:text-sm">
-                  <span className="text-lg sm:text-xl">💬</span>
+            <div className="bg-white rounded-lg shadow-lg p-4">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <a href="https://wa.me/923225501818" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition-all text-sm">
+                  <span className="text-xl">💬</span>
                   <span className="font-bold">Contact</span>
                 </a>
-                <div className="flex gap-1.5 sm:gap-2">
+                <div className="flex gap-2">
                   {!isLoggedIn ? (
-                    <button onClick={() => setShowLoginModal(true)} className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-md font-semibold transition-all text-xs sm:text-sm">
-                      <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <button onClick={() => setShowLoginModal(true)} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-md font-semibold transition-all text-sm">
+                      <Edit2 className="w-4 h-4" />
                       <span>Edit</span>
                     </button>
                   ) : (
                     <>
-                      <button onClick={() => editMode ? saveStatuses() : setEditMode(true)} className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-md font-semibold transition-all text-xs sm:text-sm">
-                        {editMode ? <><Save className="w-3.5 h-3.5 sm:w-4 sm:h-4" /><span>Save</span></> : <><Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" /><span>Edit</span></>}
+                      <button onClick={() => editMode ? saveStatuses() : setEditMode(true)} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-md font-semibold transition-all text-sm">
+                        {editMode ? <><Save className="w-4 h-4" /><span>Save</span></> : <><Edit2 className="w-4 h-4" /><span>Edit</span></>}
                       </button>
-                      <button onClick={() => { setIsLoggedIn(false); setEditMode(false); }} className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md font-semibold transition-all text-xs sm:text-sm">
-                        <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <button onClick={() => { setIsLoggedIn(false); setEditMode(false); }} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md font-semibold transition-all text-sm">
+                        <LogOut className="w-4 h-4" />
                         <span>Logout</span>
                       </button>
                     </>
                   )}
                 </div>
               </div>
-              <div className="mt-2 sm:mt-3 text-center text-gray-600 text-[9px] sm:text-[10px] border-t border-gray-200 pt-2 sm:pt-3">
+              <div className="mt-3 text-center text-gray-600 text-[10px] border-t border-gray-200 pt-3">
                 <p>Pakistan Motorway Authority - Closure Status System</p>
                 <p className="mt-1 text-gray-500">Copyright © 2026 reserved. Version 1.10.2</p>
               </div>
@@ -542,70 +544,70 @@ const App = () => {
       </div>
 
       {showLoginModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-4">
-            <div className="flex justify-between mb-3 sm:mb-4">
-              <h3 className="text-lg sm:text-xl font-bold">Login</h3>
-              <button onClick={() => setShowLoginModal(false)}><X className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <div className="flex justify-between mb-4">
+              <h3 className="text-xl font-bold">Login</h3>
+              <button onClick={() => setShowLoginModal(false)}><X className="w-6 h-6" /></button>
             </div>
-            <input type="text" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} placeholder="Username" className="w-full px-3 sm:px-4 py-2 border rounded-lg mb-2 sm:mb-3 text-sm sm:text-base" />
-            <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Password" className="w-full px-3 sm:px-4 py-2 border rounded-lg mb-2 sm:mb-3 text-sm sm:text-base" />
-            {loginError && <p className="text-red-600 text-xs sm:text-sm mb-2 sm:mb-3">{loginError}</p>}
-            <button onClick={handleLogin} className="w-full py-2.5 sm:py-3 bg-blue-600 text-white rounded-lg font-bold text-sm sm:text-base">Login</button>
+            <input type="text" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} placeholder="Username" className="w-full px-4 py-2 border rounded-lg mb-3" />
+            <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Password" className="w-full px-4 py-2 border rounded-lg mb-3" />
+            {loginError && <p className="text-red-600 text-sm mb-3">{loginError}</p>}
+            <button onClick={handleLogin} className="w-full py-3 bg-blue-600 text-white rounded-lg font-bold">Login</button>
           </div>
         </div>
       )}
 
       {showDetailModal && detailModalData && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between mb-3 sm:mb-4">
-              <h3 className="text-lg sm:text-xl font-bold text-gray-800">Plaza Status Details</h3>
-              <button onClick={() => setShowDetailModal(false)}><X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 hover:text-gray-700" /></button>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <div className="flex justify-between mb-4">
+              <h3 className="text-xl font-bold text-gray-800">Plaza Status Details</h3>
+              <button onClick={() => setShowDetailModal(false)}><X className="w-6 h-6 text-gray-500 hover:text-gray-700" /></button>
             </div>
                           <div className="space-y-3">
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg">
-                <p className="font-semibold text-gray-800 mb-1 sm:mb-2 text-base sm:text-lg break-words">{detailModalData.plaza}</p>
-                <p className="text-xs sm:text-sm text-gray-600"><strong>Direction:</strong> {detailModalData.direction === 'north' ? 'North' : 'South'} ({detailModalData.direction === 'north' ? motorwayData.northDir : motorwayData.southDir})</p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="font-semibold text-gray-800 mb-2 text-lg">{detailModalData.plaza}</p>
+                <p className="text-sm text-gray-600"><strong>Direction:</strong> {detailModalData.direction === 'north' ? 'North' : 'South'} ({detailModalData.direction === 'north' ? motorwayData.northDir : motorwayData.southDir})</p>
               </div>
               
               {detailModalData.statusObj.status === 'open' ? (
-                <div className="p-3 sm:p-4 rounded-lg bg-green-50 border-2 border-green-200">
-                  <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                    <p className="font-bold text-base sm:text-lg text-green-800">Open</p>
+                <div className="p-4 rounded-lg bg-green-50 border-2 border-green-200">
+                  <div className="flex items-center gap-2 mb-3">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                    <p className="font-bold text-lg text-green-800">Open</p>
                   </div>
-                  <div className="space-y-1.5 sm:space-y-2">
-                    <p className="text-xs sm:text-sm text-gray-700">This toll plaza is currently open for all traffic.</p>
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-700">This toll plaza is currently open for all traffic.</p>
                     {detailModalData.statusObj.lastOpenedTime && (
                       <>
-                        <p className="text-xs sm:text-sm text-gray-700"><strong>Opened At:</strong> {new Date(detailModalData.statusObj.lastOpenedTime).toLocaleString('en-PK', { timeZone: 'Asia/Karachi', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(/^24:/, '00:')} hrs</p>
-                        <p className="text-xs sm:text-sm text-gray-700"><strong>Open Duration:</strong> <span className="font-semibold text-sm sm:text-base">{calculateDuration(detailModalData.statusObj.lastOpenedTime)}</span></p>
+                        <p className="text-sm text-gray-700"><strong>Opened At:</strong> {new Date(detailModalData.statusObj.lastOpenedTime).toLocaleString('en-PK', { timeZone: 'Asia/Karachi', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(/^24:/, '00:')} hrs</p>
+                        <p className="text-sm text-gray-700"><strong>Open Duration:</strong> <span className="font-semibold text-base">{calculateDuration(detailModalData.statusObj.lastOpenedTime)}</span></p>
                       </>
                     )}
                   </div>
                 </div>
               ) : (
-                <div className={`p-3 sm:p-4 rounded-lg ${detailModalData.statusObj.status === 'closed' ? 'bg-red-50 border-2 border-red-200' : 'bg-orange-50 border-2 border-orange-200'}`}>
-                  <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <div className={`p-4 rounded-lg ${detailModalData.statusObj.status === 'closed' ? 'bg-red-50 border-2 border-red-200' : 'bg-orange-50 border-2 border-orange-200'}`}>
+                  <div className="flex items-center gap-2 mb-3">
                     {detailModalData.statusObj.status === 'closed' ? (
-                      <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
+                      <XCircle className="w-6 h-6 text-red-600" />
                     ) : (
-                      <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
+                      <Truck className="w-6 h-6 text-orange-600" />
                     )}
-                    <p className={`font-bold text-base sm:text-lg ${detailModalData.statusObj.status === 'closed' ? 'text-red-800' : 'text-orange-800'}`}>
+                    <p className={`font-bold text-lg ${detailModalData.statusObj.status === 'closed' ? 'text-red-800' : 'text-orange-800'}`}>
                       {detailModalData.statusObj.status === 'closed' ? 'Closed' : 'Partially Closed for Heavy Traffic'}
                     </p>
                   </div>
-                  <div className="space-y-1.5 sm:space-y-2">
-                    <p className="text-xs sm:text-sm text-gray-700"><strong>Reason:</strong> {reasons.find(r => r.id === detailModalData.statusObj.reason)?.label || 'N/A'}</p>
-                    <p className="text-xs sm:text-sm text-gray-700"><strong>Closed At:</strong> {new Date(detailModalData.statusObj.startTime).toLocaleString('en-PK', { timeZone: 'Asia/Karachi', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(/^24:/, '00:')} hrs</p>
-                    <p className="text-xs sm:text-sm text-gray-700"><strong>Duration:</strong> <span className="font-semibold text-sm sm:text-base">{calculateDuration(detailModalData.statusObj.startTime)}</span></p>
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-700"><strong>Reason:</strong> {reasons.find(r => r.id === detailModalData.statusObj.reason)?.label || 'N/A'}</p>
+                    <p className="text-sm text-gray-700"><strong>Closed At:</strong> {new Date(detailModalData.statusObj.startTime).toLocaleString('en-PK', { timeZone: 'Asia/Karachi', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(/^24:/, '00:')} hrs</p>
+                    <p className="text-sm text-gray-700"><strong>Duration:</strong> <span className="font-semibold text-base">{calculateDuration(detailModalData.statusObj.startTime)}</span></p>
                   </div>
                 </div>
               )}
               
-              <button onClick={() => setShowDetailModal(false)} className="w-full py-2.5 sm:py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-bold transition-all text-sm sm:text-base">Close</button>
+              <button onClick={() => setShowDetailModal(false)} className="w-full py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-bold transition-all">Close</button>
             </div>
           </div>
         </div>
@@ -613,45 +615,45 @@ const App = () => {
 
       {showReopenModal && currentEdit && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-4">
-            <div className="flex justify-between mb-3 sm:mb-4">
-              <h3 className="text-lg sm:text-xl font-bold text-gray-800">Reopen Toll Plaza</h3>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <div className="flex justify-between mb-4">
+              <h3 className="text-xl font-bold text-gray-800">Reopen Toll Plaza</h3>
               <button onClick={() => { setShowReopenModal(false); setCurrentEdit(null); setCustomDateTime(''); }}>
-                <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 hover:text-gray-700" />
+                <X className="w-6 h-6 text-gray-500 hover:text-gray-700" />
               </button>
             </div>
-            <div className="mb-4 sm:mb-6">
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg mb-3 sm:mb-4">
-                <p className="font-semibold text-gray-800 text-sm sm:text-base break-words">{currentEdit.plaza.replace(/\s*\(\d+\s*Km\)$/, '')}</p>
-                <p className="text-xs sm:text-sm text-gray-600">
+            <div className="mb-6">
+              <div className="p-4 bg-gray-50 rounded-lg mb-4">
+                <p className="font-semibold text-gray-800">{currentEdit.plaza.replace(/\s*\(\d+\s*Km\)$/, '')}</p>
+                <p className="text-sm text-gray-600">
                   Direction: {currentEdit.direction === 'north' ? 'North' : 'South'} ({currentEdit.direction === 'north' ? motorways[activeTab].northDir : motorways[activeTab].southDir})
                 </p>
               </div>
               
-              <div className="p-3 sm:p-4 bg-green-50 rounded-lg border border-green-200 mb-3 sm:mb-4">
-                <label className="block text-xs sm:text-sm font-semibold text-gray-800 mb-2">
+              <div className="p-4 bg-green-50 rounded-lg border border-green-200 mb-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Opening Date & Time
                 </label>
                 <input
                   type="datetime-local"
                   value={customDateTime}
                   onChange={(e) => setCustomDateTime(e.target.value)}
-                  className="w-full px-2.5 sm:px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   required
                 />
               </div>
             </div>
-            <div className="flex gap-2 sm:gap-3">
+            <div className="flex gap-3">
               <button 
                 onClick={() => { setShowReopenModal(false); setCurrentEdit(null); setCustomDateTime(''); }}
-                className="flex-1 py-2.5 sm:py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-bold transition-all text-sm sm:text-base"
+                className="flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-bold transition-all"
               >
                 Cancel
               </button>
               <button 
                 onClick={handleConfirmReopen}
                 disabled={!customDateTime}
-                className={`flex-1 py-2.5 sm:py-3 rounded-lg font-bold text-white transition-all text-sm sm:text-base ${customDateTime ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'}`}
+                className={`flex-1 py-3 rounded-lg font-bold text-white transition-all ${customDateTime ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'}`}
               >
                 Reopen
               </button>
@@ -662,48 +664,48 @@ const App = () => {
 
       {showReasonModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between mb-3 sm:mb-4">
-              <h3 className="text-base sm:text-lg font-bold text-gray-800">Select Closure Type & Reason</h3>
-              <button onClick={() => { setShowReasonModal(false); setCustomDateTime(''); }}><X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 hover:text-gray-700" /></button>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-800">Select Closure Type & Reason</h3>
+              <button onClick={() => { setShowReasonModal(false); setCustomDateTime(''); }}><X className="w-6 h-6 text-gray-500 hover:text-gray-700" /></button>
             </div>
             
-            <div className="mb-3 sm:mb-4">
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">Closed (All Traffic)</h4>
-              <div className="space-y-1.5 sm:space-y-2">
+            <div className="mb-4">
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">Closed (All Traffic)</h4>
+              <div className="space-y-2">
                 {reasons.map(r => (
-                  <button key={`closed-${r.id}`} onClick={() => { setSelectedReason(r.id); setSelectedClosureType('closed'); }} className={`w-full p-2.5 sm:p-3 rounded-lg text-left border-2 transition-colors ${selectedReason === r.id && selectedClosureType === 'closed' ? 'bg-red-100 border-red-500' : 'bg-red-50 hover:bg-red-100 border-transparent'}`}>
-                    <span className="font-semibold text-gray-800 text-xs sm:text-sm">{r.label}</span>
+                  <button key={`closed-${r.id}`} onClick={() => { setSelectedReason(r.id); setSelectedClosureType('closed'); }} className={`w-full p-3 rounded-lg text-left border-2 transition-colors ${selectedReason === r.id && selectedClosureType === 'closed' ? 'bg-red-100 border-red-500' : 'bg-red-50 hover:bg-red-100 border-transparent'}`}>
+                    <span className="font-semibold text-gray-800">{r.label}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="mb-3 sm:mb-4">
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">Partially Closed (Buses / Trucks Only)</h4>
-              <div className="space-y-1.5 sm:space-y-2">
+            <div className="mb-4">
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">Partially Closed (Buses / Trucks Only)</h4>
+              <div className="space-y-2">
                 {reasons.map(r => (
-                  <button key={`heavy-${r.id}`} onClick={() => { setSelectedReason(r.id); setSelectedClosureType('heavy'); }} className={`w-full p-2.5 sm:p-3 rounded-lg text-left border-2 transition-colors ${selectedReason === r.id && selectedClosureType === 'heavy' ? 'bg-orange-100 border-orange-500' : 'bg-orange-50 hover:bg-orange-100 border-transparent'}`}>
-                    <span className="font-semibold text-gray-800 text-xs sm:text-sm">{r.label}</span>
+                  <button key={`heavy-${r.id}`} onClick={() => { setSelectedReason(r.id); setSelectedClosureType('heavy'); }} className={`w-full p-3 rounded-lg text-left border-2 transition-colors ${selectedReason === r.id && selectedClosureType === 'heavy' ? 'bg-orange-100 border-orange-500' : 'bg-orange-50 hover:bg-orange-100 border-transparent'}`}>
+                    <span className="font-semibold text-gray-800">{r.label}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="mb-3 sm:mb-4 p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <label className="block text-xs sm:text-sm font-semibold text-gray-800 mb-2">
+            <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Closure Date & Time
               </label>
               <input
                 type="datetime-local"
                 value={customDateTime}
                 onChange={(e) => setCustomDateTime(e.target.value)}
-                className="w-full px-2.5 sm:px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               />
             </div>
 
-            <button onClick={handleConfirmClosure} disabled={!selectedReason || !selectedClosureType || !customDateTime} className={`w-full py-2.5 sm:py-3 rounded-lg font-bold text-white text-sm sm:text-base ${selectedReason && selectedClosureType && customDateTime ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-300 cursor-not-allowed'}`}>
+            <button onClick={handleConfirmClosure} disabled={!selectedReason || !selectedClosureType || !customDateTime} className={`w-full py-3 rounded-lg font-bold text-white ${selectedReason && selectedClosureType && customDateTime ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-300 cursor-not-allowed'}`}>
               Save & Update Status
             </button>
           </div>
