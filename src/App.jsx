@@ -377,33 +377,33 @@ const App = () => {
             )}
 
             <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
-              <h2 className="text-base font-bold text-gray-800 mb-3">{motorwayData.name}</h2>
-              <div className="flex items-center gap-4 text-xs flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <h2 className="text-sm font-bold text-gray-800 mb-3">{motorwayData.name}</h2>
+              <div className="flex items-center gap-3 text-[10px] flex-wrap">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
                   <span className="text-gray-700">Open</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
                   <span className="text-gray-700">Closed</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                  <span className="text-gray-700">Closed for Buses & Trucks</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
+                  <span className="text-gray-700">Partial</span>
                 </div>
               </div>
               {(closedCount > 0 || heavyCount > 0) && (
-                <div className="flex items-center gap-3 flex-wrap mt-3">
+                <div className="flex flex-col gap-2 mt-3">
                   {closedCount > 0 && (
-                    <div className="flex items-center gap-2 bg-red-50 px-3 py-1 rounded-full">
-                      <AlertCircle className="w-3 h-3 text-red-600" />
-                      <span className="text-red-600 font-semibold text-xs">{closedCount} Toll Plaza Closed</span>
+                    <div className="flex items-center gap-2 bg-red-50 px-2 py-1 rounded-full">
+                      <AlertCircle className="w-3 h-3 text-red-600 flex-shrink-0" />
+                      <span className="text-red-600 font-semibold text-[10px]">{closedCount} Plaza{closedCount > 1 ? 's' : ''} Closed</span>
                     </div>
                   )}
                   {heavyCount > 0 && (
-                    <div className="flex items-center gap-2 bg-orange-50 px-3 py-1 rounded-full">
-                      <Truck className="w-3 h-3 text-orange-600" />
-                      <span className="text-orange-600 font-semibold text-xs">{heavyCount} Toll Plaza Partially Closed for Heavy Traffic (Buses / Trucks)</span>
+                    <div className="flex items-center gap-2 bg-orange-50 px-2 py-1 rounded-full">
+                      <Truck className="w-3 h-3 text-orange-600 flex-shrink-0" />
+                      <span className="text-orange-600 font-semibold text-[10px]">{heavyCount} Plaza{heavyCount > 1 ? 's' : ''} Partially Closed</span>
                     </div>
                   )}
                 </div>
@@ -445,71 +445,71 @@ const App = () => {
                             {currentSection.name}
                           </div>
                         )}
-                        <div className="grid gap-3 items-center py-2 border-b-2 border-gray-400 hover:bg-gray-50 transition-colors" style={{ gridTemplateColumns: '50px 2fr 1fr 1fr' }}>
-                          <div className="text-sm font-bold text-gray-700 text-center">{index + 1}</div>
-                          <div className="text-sm font-medium text-gray-800">{plaza}</div>
+                        <div className="grid gap-2 items-center py-2 border-b-2 border-gray-400 hover:bg-gray-50 transition-colors" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
+                          <div className="text-xs font-bold text-gray-700 text-center">{index + 1}</div>
+                          <div className="text-xs font-medium text-gray-800 pr-1">{plaza.replace(/\s*\(\d+\s*Km\)$/, '')}</div>
                           <div className="flex justify-center">
-                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'north', status.north)} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-white text-xs min-w-[140px] font-semibold ${getStatusColor(status.north?.status)} cursor-pointer hover:opacity-80`}>
+                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'north', status.north)} className={`flex flex-col items-center justify-center gap-1 px-2 py-1.5 rounded-lg text-white text-[10px] w-full font-semibold ${getStatusColor(status.north?.status)} cursor-pointer hover:opacity-80`}>
                               {getStatusIcon(status.north?.status)}
-                              {getStatusText(status.north, true)}
+                              <span className="leading-tight text-center">{status.north?.status === 'closed' ? 'Closed' : status.north?.status === 'heavy' ? 'Partial' : 'Open'}</span>
                             </button>
                           </div>
                           <div className="flex justify-center">
-                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'south', status.south)} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-white text-xs min-w-[140px] font-semibold ${getStatusColor(status.south?.status)} cursor-pointer hover:opacity-80`}>
+                            <button onClick={() => handlePlazaClick(activeTab, plaza, 'south', status.south)} className={`flex flex-col items-center justify-center gap-1 px-2 py-1.5 rounded-lg text-white text-[10px] w-full font-semibold ${getStatusColor(status.south?.status)} cursor-pointer hover:opacity-80`}>
                               {getStatusIcon(status.south?.status)}
-                              {getStatusText(status.south, true)}
+                              <span className="leading-tight text-center">{status.south?.status === 'closed' ? 'Closed' : status.south?.status === 'heavy' ? 'Partial' : 'Open'}</span>
                             </button>
                           </div>
                         </div>
                         {nextPlaza && editMode && (
-                          <div className="grid gap-3 items-center py-2 bg-gray-100" style={{ gridTemplateColumns: '50px 2fr 1fr 1fr' }}>
+                          <div className="grid gap-2 items-center py-2 bg-gray-100" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
                             <div></div>
-                            <div className="text-xs text-gray-600 italic flex items-center gap-2">
+                            <div className="text-[10px] text-gray-600 italic flex items-center gap-1">
                               <span>Diversion</span>
                             </div>
                             <div className="flex justify-center">
-                              <label className="flex items-center gap-2 cursor-pointer">
+                              <label className="flex flex-col items-center gap-0.5 cursor-pointer">
                                 <input
                                   type="checkbox"
                                   checked={hasNorthDiversion}
                                   onChange={() => toggleDiversion(activeTab, plaza, nextPlaza, 'north')}
-                                  className="w-5 h-5 cursor-pointer accent-red-600"
+                                  className="w-4 h-4 cursor-pointer accent-red-600"
                                 />
-                                <span className={`text-xs font-semibold ${hasNorthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
-                                  {hasNorthDiversion ? 'Active' : 'Off'}
+                                <span className={`text-[10px] font-semibold ${hasNorthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
+                                  {hasNorthDiversion ? 'On' : 'Off'}
                                 </span>
                               </label>
                             </div>
                             <div className="flex justify-center">
-                              <label className="flex items-center gap-2 cursor-pointer">
+                              <label className="flex flex-col items-center gap-0.5 cursor-pointer">
                                 <input
                                   type="checkbox"
                                   checked={hasSouthDiversion}
                                   onChange={() => toggleDiversion(activeTab, plaza, nextPlaza, 'south')}
-                                  className="w-5 h-5 cursor-pointer accent-red-600"
+                                  className="w-4 h-4 cursor-pointer accent-red-600"
                                 />
-                                <span className={`text-xs font-semibold ${hasSouthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
-                                  {hasSouthDiversion ? 'Active' : 'Off'}
+                                <span className={`text-[10px] font-semibold ${hasSouthDiversion ? 'text-red-600' : 'text-gray-600'}`}>
+                                  {hasSouthDiversion ? 'On' : 'Off'}
                                 </span>
                               </label>
                             </div>
                           </div>
                         )}
                         {(hasNorthDiversion || hasSouthDiversion) && !editMode && (
-                          <div className="grid gap-3 items-center py-1" style={{ gridTemplateColumns: '50px 2fr 1fr 1fr' }}>
+                          <div className="grid gap-2 items-center py-1" style={{ gridTemplateColumns: '30px 1fr 60px 60px' }}>
                             <div></div>
                             <div></div>
                             <div className="flex justify-center">
                               {hasNorthDiversion && (
-                                <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold text-center">
-                                  DIVERSION
+                                <div className="bg-red-600 text-white px-1 py-0.5 rounded text-[9px] font-bold text-center">
+                                  DIV
                                 </div>
                               )}
                             </div>
                             <div className="flex justify-center">
                               {hasSouthDiversion && (
-                                <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold text-center">
-                                  DIVERSION
+                                <div className="bg-red-600 text-white px-1 py-0.5 rounded text-[9px] font-bold text-center">
+                                  DIV
                                 </div>
                               )}
                             </div>
@@ -521,41 +521,42 @@ const App = () => {
                 </div>
               </div>
               {editMode && (
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                  <p className="text-xs text-blue-800 flex items-start gap-2">
-                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                    <span>Click any Open status to close or partially close a plaza. Click Closed or Partially Closed to reopen.</span>
+                <div className="mt-4 p-2 bg-blue-50 rounded-lg">
+                  <p className="text-[10px] text-blue-800 flex items-start gap-2">
+                    <AlertCircle className="w-3 h-3 flex-shrink-0 mt-0.5" />
+                    <span>Tap any Open status to close or partially close a plaza. Tap Closed/Partial to reopen.</span>
                   </p>
                 </div>
               )}
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-4">
-              <div className="flex items-center justify-between gap-4 flex-wrap">
-                <a href="https://wa.me/923225501818" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg font-semibold shadow-md transition-all">
-                  <span className="text-2xl">💬</span>
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <a href="https://wa.me/923225501818" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg font-semibold shadow-md transition-all text-sm">
+                  <span className="text-xl">💬</span>
                   <span className="font-bold">Contact</span>
                 </a>
                 <div className="flex gap-2">
                   {!isLoggedIn ? (
-                    <button onClick={() => setShowLoginModal(true)} className="flex items-center gap-2 px-4 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-md font-semibold transition-all">
-                      <Edit2 className="w-5 h-5" />
+                    <button onClick={() => setShowLoginModal(true)} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-md font-semibold transition-all text-sm">
+                      <Edit2 className="w-4 h-4" />
+                      <span>Edit</span>
                     </button>
                   ) : (
                     <>
-                      <button onClick={() => editMode ? saveStatuses() : setEditMode(true)} className="flex items-center gap-2 px-4 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-md font-semibold transition-all">
-                        {editMode ? <><Save className="w-5 h-5" /><span>Save</span></> : <><Edit2 className="w-5 h-5" /><span>Edit</span></>}
+                      <button onClick={() => editMode ? saveStatuses() : setEditMode(true)} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-md font-semibold transition-all text-sm">
+                        {editMode ? <><Save className="w-4 h-4" /><span>Save</span></> : <><Edit2 className="w-4 h-4" /><span>Edit</span></>}
                       </button>
-                      <button onClick={() => { setIsLoggedIn(false); setEditMode(false); }} className="flex items-center gap-2 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md font-semibold transition-all">
-                        <LogOut className="w-5 h-5" />
+                      <button onClick={() => { setIsLoggedIn(false); setEditMode(false); }} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md font-semibold transition-all text-sm">
+                        <LogOut className="w-4 h-4" />
                         <span>Logout</span>
                       </button>
                     </>
                   )}
                 </div>
               </div>
-              <div className="mt-3 text-center text-gray-600 text-xs border-t border-gray-200 pt-3">
-                <p>Pakistan Motorway Authority - Closure Status Information System</p>
+              <div className="mt-3 text-center text-gray-600 text-[10px] border-t border-gray-200 pt-3">
+                <p>Pakistan Motorway Authority - Closure Status System</p>
               </div>
             </div>
           </div>
