@@ -306,8 +306,7 @@ const App = () => {
     const status = plazaStatuses[key];
     return status?.north?.status === 'heavy' || status?.south?.status === 'heavy';
   }).length;
-  const containerClass = viewMode === 'mobile' ? 'max-w-[400px] h-full' : 'w-full max-w-6xl h-[700px]';
-
+const containerClass = viewMode === 'mobile' ? 'w-full h-full' : 'w-full max-w-6xl h-[700px]';
   return (
     <div className="min-h-screen bg-gray-900 p-4 flex flex-col items-center">
       <div className="bg-gray-800 rounded-lg p-4 mb-4 w-full max-w-6xl">
@@ -411,7 +410,7 @@ const App = () => {
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-3 mb-4 overflow-x-auto">
-              <div className="min-w-[650px]">
+              <div className="w-full">
                 <div className="grid gap-2">
                   <div className="grid gap-3 pb-2 border-b-4 border-gray-500 font-semibold text-sm" style={{ gridTemplateColumns: '50px 2fr 1fr 1fr' }}>
                     <div className="text-center">Sr. No.</div>
