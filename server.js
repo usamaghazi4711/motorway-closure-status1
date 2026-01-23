@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-const path = require('path'); // Required to handle file paths
+const path = require('path'); 
 const app = express();
 
 app.use(cors());
@@ -19,7 +19,8 @@ const db = mysql.createPool({
 
 // 2. API Routes
 app.get('/api/status', (req, res) => {
-    db.query('SELECT * FROM plaza_status', (err, results) => {
+    // Changed table name to 'plaza_statuses' to match your database
+    db.query('SELECT * FROM plaza_statuses', (err, results) => {
         if (err) return res.status(500).send(err);
         res.json(results);
     });
@@ -27,22 +28,22 @@ app.get('/api/status', (req, res) => {
 
 app.post('/api/update', (req, res) => {
     const { key, motorway, plaza, direction, status, reason, startTime } = req.body;
-    const sql = `INSERT INTO plaza_status (id, motorway, plaza_name, direction, status, reason, start_time) 
+    // Changed table name to 'plaza_statuses' here too
+    const sql = `INSERT INTO plaza_statuses (id, motorway, plaza_name, direction, status, reason, start_time) 
                  VALUES (?, ?, ?, ?, ?, ?, ?) 
                  ON DUPLICATE KEY UPDATE status=?, reason=?, start_time=?`;
     
     db.query(sql, [key, motorway, plaza, direction, status, reason, startTime, status, reason, startTime], (err) => {
         if (err) return res.status(500).send(err);
+        // Ensure you have an 'app_metadata' table or remove this line
         db.query("UPDATE app_metadata SET meta_value = NOW() WHERE meta_key = 'last_updated'");
         res.json({ success: true });
     });
 });
 
-// 3. FRONTEND SERVING (Fixes the White Screen)
-// This tells Express to serve the 'dist' folder created by 'npm run build'
+// 3. FRONTEND SERVING
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// This handles any route (like /M-2 or /M-3) and sends it to the React app
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
