@@ -1,3 +1,10 @@
+import { storage } from './services/api';
+
+// Replace all window.storage calls with storage:
+// window.storage.get → storage.get
+// window.storage.set → storage.set
+// window.storage.delete → storage.delete
+// window.storage.list → storage.list
 import React, { useState, useEffect } from 'react';
 import { AlertCircle, Navigation, CheckCircle, XCircle, Edit2, Save, Truck, X, LogOut, Smartphone, Monitor } from 'lucide-react';
 
